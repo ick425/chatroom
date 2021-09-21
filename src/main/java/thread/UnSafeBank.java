@@ -65,6 +65,7 @@ class WithdrawMoney extends Thread {
 		if (account.money - drawingMoney < 0) {
 			System.out.println("余额不足");
 		}
+		// sleep可以放大问题的发生性
 		try {
 			Thread.sleep(1000);
 		} catch (InterruptedException e) {
