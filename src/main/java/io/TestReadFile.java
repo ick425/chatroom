@@ -24,12 +24,11 @@ public class TestReadFile {
 
     public static void readFile() {
         File file = new File(LOCAL_FILE_PATH);
-        List<String> pathList = new ArrayList<>();
+        List<File> pathList = new ArrayList<>();
         getFile(file, pathList);
         if (CollectionUtils.isNotEmpty(pathList)) {
             // 共有1408个pdf
             System.out.println(pathList.size());
-            System.out.println(pathList.get(0));
         }
     }
 
@@ -40,7 +39,7 @@ public class TestReadFile {
      * @param pathList 本地路径集合
      * @return 本地路径集合
      */
-    private static void getFile(File file, List<String> pathList) {
+    private static void getFile(File file, List<File> pathList) {
         if (file.isDirectory()) {
             File[] files = file.listFiles();
             if (Objects.nonNull(files)) {
@@ -49,8 +48,7 @@ public class TestReadFile {
                 }
             }
         } else if (file.isFile()) {
-            String path1 = file.getPath();
-            pathList.add(path1);
+            pathList.add(file);
         }
     }
 }
