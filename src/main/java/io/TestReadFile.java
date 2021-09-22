@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Objects;
 
 /**
+ * 读取指定路径下的文件，递归读取文件夹
+ *
  * @author wcl
  */
 public class TestReadFile {
