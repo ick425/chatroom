@@ -19,9 +19,9 @@ public class UnSafeList {
                 }
             }).start();
         }
-        // 如果这里不加延时，还是会数量不一致
+        // 加延时是为了确保子线程在main线程之前执行完
         try {
-            Thread.sleep(1);
+            Thread.sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
