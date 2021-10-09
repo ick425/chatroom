@@ -29,7 +29,7 @@ class Productor extends Thread {
 
     @Override
     public void run() {
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 50; i++) {
             synContainer.push(new Chicken(i));
         }
     }
@@ -48,7 +48,7 @@ class Consumer extends Thread {
 
     @Override
     public void run() {
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 50; i++) {
             synContainer.pop();
         }
     }
