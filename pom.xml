@@ -51,6 +51,13 @@
             <version>2.2.6</version>
         </dependency>
 
+        <!--rabbitmq-->
+        <dependency>
+            <groupId>com.rabbitmq</groupId>
+            <artifactId>amqp-client</artifactId>
+            <version>5.13.1</version>
+        </dependency>
+
     </dependencies>
 
 </project>

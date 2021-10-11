@@ -13,9 +13,9 @@ public class IdCardUtils {
     public static final String REGEX_HK_CARD = "^[HMhm]{1}([0-9]{10}|[0-9]{8})$";
 
     /**
-     * 正则表达式：验证台湾居民通行证 新版8位或18位数字,旧版10位数字 + 英文字母
+     * 正则表达式：验证台湾居民通行证 新版8位或1位英文+7位数字
      */
-    public static final String REGEX_TW_CARD = "^\\d{8}|^[a-zA-Z0-9]{10}|^\\d{18}$";
+    public static final String REGEX_TW_CARD = "^(\\d{8}|^[a-zA-Z]{1}(\\d{7}))$";
 
     /**
      * 校验港澳通行证
@@ -47,8 +47,9 @@ public class IdCardUtils {
     }
 
     public static void main(String[] args) {
-        System.out.println(isHMCard("H12345067890"));
         System.out.println(isTWCard("12345678"));
+        System.out.println(isTWCard("g1234568"));
+        System.out.println(isTWCard("g12345618"));
 
     }
 }
