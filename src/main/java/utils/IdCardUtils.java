@@ -1,6 +1,11 @@
 package utils;
 
+import cn.hutool.core.exceptions.ValidateException;
+import cn.hutool.core.lang.Validator;
 import org.apache.commons.lang.StringUtils;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author wcl
@@ -18,6 +23,11 @@ public class IdCardUtils {
     public static final String REGEX_TW_CARD = "^(\\d{8}|^[a-zA-Z]{1}(\\d{7}))$";
 
     /**
+     * 身份证
+     */
+    public static final String ID_CARD = "^[1-9]\\d{5}(18|19|20)\\d{2}((0[1-9])|(1[0-2]))(([0-2][1-9])|10|20|30|31)\\d{3}[0-9Xx]$";
+
+    /**
      * 校验港澳通行证
      *
      * @param HMNo 港澳通行证号
@@ -29,6 +39,22 @@ public class IdCardUtils {
             return false;
         }
         return HMNo.matches(REGEX_HK_CARD);
+    }
+
+    /**
+     * 身份证
+     *
+     * @param idCard 校验内容
+     * @return 符合正则表达式返回true，否则返回false
+     */
+    public static boolean isIdCard(String idCard) {
+        boolean flag = false;
+        if (null != idCard && !"".equals(idCard.trim()) && idCard.trim().length() == 18) {
+            Pattern pattern = Pattern.compile(ID_CARD);
+            Matcher matcher = pattern.matcher(idCard.trim());
+            flag = matcher.matches();
+        }
+        return flag;
     }
 
     /**
@@ -47,9 +73,9 @@ public class IdCardUtils {
     }
 
     public static void main(String[] args) {
-        System.out.println(isTWCard("12345678"));
-        System.out.println(isTWCard("g1234568"));
-        System.out.println(isTWCard("g12345618"));
-
+//        System.out.println(isTWCard("12345678"));
+//        System.out.println(isTWCard("g1234568"));
+//        System.out.println(isTWCard("g12345618"));
+        System.out.println(isIdCard("M15451451"));
     }
 }
