@@ -3,9 +3,12 @@ package utils;
 import org.apache.commons.lang.StringUtils;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjuster;
+import java.time.temporal.TemporalAdjusters;
 import java.util.Date;
 
 /**
@@ -52,5 +55,30 @@ public class DateUtils {
      */
     public static Date localDateTime2Date(LocalDateTime localDateTime) {
         return Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
+    }
+
+    /**
+     * 获取当前月第一天
+     *
+     * @return LocalDate
+     */
+    public static LocalDate getFirstDateOfMonth() {
+        LocalDate localDate = LocalDate.now();
+        return localDate.with(TemporalAdjusters.firstDayOfMonth());
+    }
+
+    /**
+     * 获取当前月最后一天
+     *
+     * @return LocalDate
+     */
+    public static LocalDate getLastDateOfMonth() {
+        LocalDate localDate = LocalDate.now();
+        return localDate.with(TemporalAdjusters.lastDayOfMonth());
+    }
+
+    public static void main(String[] args) {
+        System.out.println(getFirstDateOfMonth());
+        System.out.println(getLastDateOfMonth());
     }
 }

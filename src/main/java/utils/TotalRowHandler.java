@@ -57,14 +57,14 @@ public class TotalRowHandler implements CellWriteHandler {
                 // 从数据开始，表头不会读取
                 if (relativeRowIndex >= startRow) {
                     if (head != null) {
-                        log.debug("表头====》" + head.getHeadNameList().get(0));
+                        System.out.println("表头====》" + head.getHeadNameList().get(0));
                     }
                     if (CellType.STRING.name().equals(cell.getCellTypeEnum().name())) {
-                        log.debug("单元格数据===》" + cell.getStringCellValue());
+                        System.out.println("单元格数据===》" + cell.getStringCellValue());
                     } else if (CellType.NUMERIC.name().equals(cell.getCellTypeEnum().name())) {
-                        log.debug("单元格数据===》" + cell.getNumericCellValue());
+                        System.out.println("单元格数据===》" + cell.getNumericCellValue());
                     }
-                    log.info("");
+                    System.out.println();
                     // 设置样式
                     Workbook workbook = writeSheetHolder.getSheet().getWorkbook();
                     // 设置字体样式

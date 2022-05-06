@@ -20,7 +20,7 @@ public class ExampleKit {
      */
     public static Example copyExample(Example source, Class<?> dClass) {
         Class<?> entityClass = source.getEntityClass();
-        log.info("entityClass:{}", entityClass.getName());
+        System.out.println("entityClass:{}" + entityClass.getName());
         Example example = new Example(dClass);
         List<Example.Criteria> oredCriteriaList = source.getOredCriteria();
         for (Example.Criteria oredCriterion : oredCriteriaList) {
