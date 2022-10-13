@@ -1,13 +1,48 @@
+import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.crypto.digest.MD5;
+import org.apache.commons.collections4.CollectionUtils;
+
+import java.math.BigDecimal;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class Test {
 
 
     public static void main(String[] args) {
-        // System.out.println(Arrays.toString(runningSum()));
-        // System.out.println(canConstruct());
-        System.out.println(Arrays.toString(twoSum(new int[]{3, 2, 4}, 6)));
 
+    }
+
+
+    static void test3() {
+        List<String> list = new ArrayList<>();
+        System.out.println(list.contains("1"));
+
+    }
+
+    static void test2() {
+        List<String> list1 = new ArrayList<>();
+        list1.add("a");
+        list1.add("b");
+        list1.add("c");
+
+        List<String> list2 = new ArrayList<>();
+        list2.add("a");
+        list2.add("c");
+        list2.add("b");
+
+        boolean equals = list1.equals(list2);
+        System.out.println("equals:" + equals);
+
+        Collection<String> disjunction = CollectionUtil.disjunction(list1, list2);
+        Collection<String> disjunction1 = CollectionUtils.disjunction(list1, list2);
+    }
+
+    static void test1() {
+        String workType = ",";
+        List<Integer> collect = Arrays.stream(workType.split(","))
+                .map(Integer::parseInt).collect(Collectors.toList());
+        System.out.println(collect);
     }
 
     /**
