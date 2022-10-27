@@ -10,7 +10,9 @@ public class Test {
 
 
     public static void main(String[] args) {
-
+        List<String> list1 = new ArrayList<>();
+        List<String> collect = list1.parallelStream().collect(Collectors.toList());
+        System.out.println(collect);
     }
 
 
