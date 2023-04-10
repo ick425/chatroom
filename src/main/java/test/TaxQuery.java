@@ -1,3 +1,5 @@
+package test;
+
 /**
  * 同步算税请求body
  *

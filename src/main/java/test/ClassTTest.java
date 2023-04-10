@@ -1,3 +1,5 @@
+package test;
+
 public class ClassTTest {
     public static void main(String[] args) {
         Tss t = new Tss("初始值");

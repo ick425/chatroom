@@ -1,3 +1,5 @@
+package test;
+
 public class ForTest {
     public static void main(String[] args) {
         long l = test1();

@@ -1,3 +1,5 @@
+package test;
+
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.geom.Ellipse2D;

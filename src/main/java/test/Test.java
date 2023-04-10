@@ -1,8 +1,13 @@
+package test;
+
 import cn.hutool.core.collection.CollectionUtil;
+import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.hutool.crypto.digest.MD5;
 import org.apache.commons.collections4.CollectionUtils;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -10,9 +15,17 @@ public class Test {
 
 
     public static void main(String[] args) {
-        List<String> list1 = new ArrayList<>();
-        List<String> collect = list1.parallelStream().collect(Collectors.toList());
-        System.out.println(collect);
+        String natResultTime = "2022-11-14 16:00:00";
+        LocalDateTime natTime = LocalDateTimeUtil.parse(natResultTime, "yyyy-MM-dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        long between = LocalDateTimeUtil.between(natTime, now, ChronoUnit.DAYS);
+        System.out.println(between + "天");
+    }
+
+    private static void changeInt(Integer a, Integer b) {
+        a = 120;
+        b = 230;
+        System.out.println(a + ",222" + b);
     }
 
 

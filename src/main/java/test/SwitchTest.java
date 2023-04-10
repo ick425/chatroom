@@ -1,3 +1,5 @@
+package test;
+
 /**
  * switch必须先判空
  *

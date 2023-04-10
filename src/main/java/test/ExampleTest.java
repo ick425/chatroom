@@ -1,3 +1,5 @@
+package test;
+
 import entiy.TestDO;
 import tk.mybatis.mapper.entity.Example;
 import utils.ExampleKit;

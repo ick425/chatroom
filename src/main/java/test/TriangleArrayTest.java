@@ -1,3 +1,5 @@
+package test;
+
 /**
  * 杨辉三角
  *
