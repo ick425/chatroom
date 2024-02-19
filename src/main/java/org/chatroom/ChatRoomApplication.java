@@ -9,15 +9,15 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
  * @author wo
  */
 @SpringBootApplication
-public class ExampleApplication extends SpringBootServletInitializer {
+public class ChatRoomApplication extends SpringBootServletInitializer {
 
     public static void main(String[] args) throws Exception {
-        SpringApplication.run(ExampleApplication.class, args);
-        System.out.println("启动成功");
+        SpringApplication.run(ChatRoomApplication.class, args);
+        System.out.println("========启动成功========");
     }
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        return application.sources(ExampleApplication.class);
+        return application.sources(ChatRoomApplication.class);
     }
 }
