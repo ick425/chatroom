@@ -12,11 +12,13 @@ import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 简单websocket实现的聊天室
+ *
+ * @author wo
  */
 @ServerEndpoint(value = "/websocket/{userId}")
 @Component
 @Slf4j
-public class WebsocketTest {
+public class WebsocketChatRoom {
 
     /**
      * 静态变量，用来记录当前在线连接数。应该把它设计成线程安全的
@@ -26,7 +28,7 @@ public class WebsocketTest {
     /**
      * concurrent包的线程安全Map，用来存放每个客户端对应的MyWebSocket对象
      */
-    private static ConcurrentHashMap<String, WebsocketTest> webSocketMap = new ConcurrentHashMap<>();
+    private static ConcurrentHashMap<String, WebsocketChatRoom> webSocketMap = new ConcurrentHashMap<>();
 
     /**
      * 与某个客户端的连接会话，需要通过它来给客户端发送数据
