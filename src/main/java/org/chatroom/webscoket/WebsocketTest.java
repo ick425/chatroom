@@ -43,13 +43,16 @@ public class WebsocketTest {
      * 连接建立成功调用的方法
      */
     @OnOpen
-    public void onOpen(Session session, @PathParam("userId") String userId) {
+    public void onOpen(Session session, @PathParam("userId") String userId) throws Throwable {
         this.session = session;
-        this.userId = userId;
         if (webSocketMap.containsKey(userId)) {
+            // 限制当前人登录
             sendMessage("当前昵称已存在，请修改昵称");
+            session.close();
             return;
         }
+        this.userId = userId;
+        log.info("session id:{}", session.getId());
         //加入map
         webSocketMap.put(userId, this);
         addOnlineCount();           //在线数加1
@@ -57,13 +60,15 @@ public class WebsocketTest {
         sendGroupMsg(String.format("【%s】进入聊天室,当前在线人数：%d", userId, getOnlineCount()));
     }
 
-
     /**
      * 连接关闭调用的方法
      */
     @OnClose
     public void onClose() {
         //从map中删除
+        if (userId == null) {
+            return;
+        }
         webSocketMap.remove(userId);
         subOnlineCount();           //在线数减1
         log.info("【{}】退出聊天室！当前在线人数为：{}", userId, getOnlineCount());
