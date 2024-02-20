@@ -1,6 +1,6 @@
 package org.wangcl.demo;
 
-import org.wangcl.entiy.TestDO;
+import org.wangcl.demo.entiy.TestDO;
 import org.wangcl.utils.ExampleKit;
 import tk.mybatis.mapper.entity.Example;
 

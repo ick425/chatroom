@@ -1,4 +1,4 @@
-package org.wangcl.entiy;
+package org.wangcl.demo.entiy;
 
 import lombok.Data;
 
