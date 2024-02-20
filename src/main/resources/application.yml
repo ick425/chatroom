@@ -3,6 +3,6 @@ server:
 
 spring:
   application:
-    name: chatroom
+    name: wangcl
   profiles:
     active: dev
