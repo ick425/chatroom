@@ -11,10 +11,10 @@ import org.springframework.core.env.Environment;
  * @author wo
  */
 @SpringBootApplication
-public class ChatRoomApplication extends SpringBootServletInitializer {
+public class WangApplication extends SpringBootServletInitializer {
 
     public static void main(String[] args) throws Exception {
-        ConfigurableApplicationContext context = SpringApplication.run(ChatRoomApplication.class, args);
+        ConfigurableApplicationContext context = SpringApplication.run(WangApplication.class, args);
         Environment environment = context.getBean(Environment.class);
         System.out.println("\n============ 系统启动成功！============" +
                 "\n后台地址：http://localhost:" + environment.getProperty("server.port"));
@@ -22,6 +22,6 @@ public class ChatRoomApplication extends SpringBootServletInitializer {
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        return application.sources(ChatRoomApplication.class);
+        return application.sources(WangApplication.class);
     }
 }
