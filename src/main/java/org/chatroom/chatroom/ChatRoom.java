@@ -1,4 +1,4 @@
-package org.chatroom.webscoket;
+package org.chatroom.chatroom;
 
 import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -15,10 +15,10 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  * @author wo
  */
-@ServerEndpoint(value = "/websocket/{userId}")
+@ServerEndpoint(value = "/chatroom/{userId}")
 @Component
 @Slf4j
-public class WebsocketChatRoom {
+public class ChatRoom {
 
     /**
      * 静态变量，用来记录当前在线连接数。应该把它设计成线程安全的
@@ -28,7 +28,7 @@ public class WebsocketChatRoom {
     /**
      * concurrent包的线程安全Map，用来存放每个客户端对应的MyWebSocket对象
      */
-    private static ConcurrentHashMap<String, WebsocketChatRoom> webSocketMap = new ConcurrentHashMap<>();
+    private static ConcurrentHashMap<String, ChatRoom> webSocketMap = new ConcurrentHashMap<>();
 
     /**
      * 与某个客户端的连接会话，需要通过它来给客户端发送数据

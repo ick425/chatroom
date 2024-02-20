@@ -1,4 +1,4 @@
-package org.chatroom.test;
+package org.chatroom.demo;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

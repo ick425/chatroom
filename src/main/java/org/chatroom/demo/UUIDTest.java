@@ -1,4 +1,4 @@
-package org.chatroom.test;
+package org.chatroom.demo;
 
 public class UUIDTest {
     public static void main(String[] args) {

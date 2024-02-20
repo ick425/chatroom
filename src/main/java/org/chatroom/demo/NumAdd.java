@@ -1,4 +1,4 @@
-package org.chatroom.test;
+package org.chatroom.demo;
 
 import java.util.ArrayList;
 import java.util.Arrays;

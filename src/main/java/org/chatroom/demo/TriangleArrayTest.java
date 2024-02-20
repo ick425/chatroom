@@ -1,4 +1,4 @@
-package org.chatroom.test;
+package org.chatroom.demo;
 
 /**
  * 杨辉三角

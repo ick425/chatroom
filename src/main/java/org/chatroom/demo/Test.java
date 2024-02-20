@@ -1,4 +1,4 @@
-package org.chatroom.test;
+package org.chatroom.demo;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.date.LocalDateTimeUtil;

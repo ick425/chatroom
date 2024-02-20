@@ -1,8 +1,8 @@
-package org.chatroom.test;
+package org.chatroom.demo;
 
 import org.chatroom.entiy.TestDO;
-import tk.mybatis.mapper.entity.Example;
 import org.chatroom.utils.ExampleKit;
+import tk.mybatis.mapper.entity.Example;
 
 /**
  * @author wcl

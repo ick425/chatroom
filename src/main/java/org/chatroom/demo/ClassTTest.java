@@ -1,4 +1,4 @@
-package org.chatroom.test;
+package org.chatroom.demo;
 
 public class ClassTTest {
     public static void main(String[] args) {

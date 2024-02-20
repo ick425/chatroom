@@ -1,6 +1,7 @@
-package org.chatroom.test;
+package org.chatroom.demo;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * hashCode

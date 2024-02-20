@@ -1,4 +1,4 @@
-package org.chatroom.test;
+package org.chatroom.demo;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

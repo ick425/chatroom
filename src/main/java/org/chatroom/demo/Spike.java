@@ -1,4 +1,4 @@
-package org.chatroom.test;
+package org.chatroom.demo;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.chrome.ChromeDriver;
