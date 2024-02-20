@@ -50,7 +50,7 @@
         </filter>
     </appender>
 
-    <logger name="cn.landdt.duoduoping.community" level="DEBUG"/>
+    <logger name="org.chatroom" level="DEBUG"/>
     <!-- Level: FATAL 0  ERROR 3  WARN 4  INFO 6  DEBUG 7 -->
     <root level="INFO" additivity="false">
         <appender-ref ref="console"/>
