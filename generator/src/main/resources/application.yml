@@ -1,0 +1,10 @@
+server:
+  port: 8801
+spring:
+  application:
+    name: face-generator
+  datasource:
+    url: jdbc:mysql://localhost:3306/chatroom?rewriteBatchedStatements=true
+    username: root
+    password: 123qwe
+
