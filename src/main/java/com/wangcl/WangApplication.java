@@ -1,5 +1,7 @@
 package com.wangcl;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
@@ -7,17 +9,32 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.Environment;
 
+import java.net.InetAddress;
+
 /**
  * @author wo
  */
 @SpringBootApplication
 public class WangApplication extends SpringBootServletInitializer {
+    private static final Logger logger = LoggerFactory.getLogger(WangApplication.class);
 
     public static void main(String[] args) throws Exception {
         ConfigurableApplicationContext context = SpringApplication.run(WangApplication.class, args);
-        Environment environment = context.getBean(Environment.class);
-        System.out.println("\n============ 系统启动成功！============" +
-                "\n后台地址：http://localhost:" + environment.getProperty("server.port"));
+        Environment env = context.getBean(Environment.class);
+        logger.info("""
+                                                
+                        ----------------------------------------------------------
+                        \tApplication '{}' is running! Access URLs:
+                        \tLocal:    http://localhost:{}
+                        \tExternal: http://{}:{}
+                        \tDoc:      http://{}:{}/doc.html
+                        ----------------------------------------------------------""",
+                env.getProperty("spring.application.name"),
+                env.getProperty("server.port"),
+                InetAddress.getLocalHost().getHostAddress(),
+                env.getProperty("server.port"),
+                InetAddress.getLocalHost().getHostAddress(),
+                env.getProperty("server.port"));
     }
 
     @Override

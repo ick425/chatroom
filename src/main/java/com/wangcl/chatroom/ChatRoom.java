@@ -1,6 +1,7 @@
 package com.wangcl.chatroom;
 
 import cn.hutool.core.util.StrUtil;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -15,6 +16,7 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  * @author wo
  */
+@Tag(name = "聊天室")
 @ServerEndpoint(value = "/chatroom/{userId}")
 @Component
 @Slf4j
