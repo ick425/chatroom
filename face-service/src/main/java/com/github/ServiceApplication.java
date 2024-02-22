@@ -1,5 +1,6 @@
 package com.github;
 
+import com.alicp.jetcache.anno.config.EnableMethodCache;
 import org.mybatis.spring.annotation.MapperScan;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +16,7 @@ import java.net.InetAddress;
 /**
  * @author wo
  */
+@EnableMethodCache(basePackages = "com.github.face")
 @MapperScan("com.github.**.mapper")
 @SpringBootApplication
 public class ServiceApplication extends SpringBootServletInitializer {

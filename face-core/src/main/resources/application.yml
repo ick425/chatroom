@@ -4,8 +4,4 @@ server:
 spring:
   application:
     name: face-core
-#  datasource:
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://localhost:3306/chatroom?rewriteBatchedStatements=true
-#    username: root
-#    password: 123qwe
+

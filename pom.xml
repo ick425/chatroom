@@ -26,6 +26,13 @@
         <maven.compiler.target>17</maven.compiler.target>
         <knife4j.version>4.4.0</knife4j.version>
         <mybatis-plus.version>3.5.5</mybatis-plus.version>
+        <druid-boot-starter.version>1.2.20</druid-boot-starter.version>
+        <hutool.version>5.8.25</hutool.version>
+        <fastjson.version>2.0.45</fastjson.version>
+        <jetcache.version>2.7.3</jetcache.version>
+        <rabbitmq.version>5.20.0</rabbitmq.version>
+        <commons-lang.version>2.6</commons-lang.version>
+        <commons-io.version>2.15.1</commons-io.version>
     </properties>
 
     <dependencies>
@@ -35,7 +42,6 @@
             <artifactId>face-core</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-
 
         <!--mybatis-plus-->
         <dependency>
@@ -47,15 +53,14 @@
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
-            <version>5.8.25</version>
+            <version>${hutool.version}</version>
         </dependency>
         <!--druid连接池-->
         <dependency>
             <groupId>com.alibaba</groupId>
-            <artifactId>druid</artifactId>
-            <version>1.0.5</version>
+            <artifactId>druid-spring-boot-starter</artifactId>
+            <version>${druid-boot-starter.version}</version>
         </dependency>
-
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
