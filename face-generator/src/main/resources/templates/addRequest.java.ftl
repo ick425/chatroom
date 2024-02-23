@@ -20,7 +20,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(value="${entity}对象", description="${table.comment!}")
+@Tag(name = "${entity}对象", description="${table.comment!})
 public class ${entity}AddRequest implements Serializable {
 
 <#list table.fields as field>
@@ -32,7 +32,7 @@ public class ${entity}AddRequest implements Serializable {
     /**
      * ${field.comment!}
      */
-    @ApiModelProperty(value = "${field.comment}")
+    @Schema(name = "${field.comment}")
     private ${field.propertyType} ${field.propertyName};
 
     </#if>
