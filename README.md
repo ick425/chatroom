@@ -12,7 +12,7 @@
 > 
 > mybatis-plus: 3.5.5
 > 
-> jetcache
+> jetcache: 2.7.3
 > 
 >
 

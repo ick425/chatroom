@@ -1,0 +1,39 @@
+package ${cfg.routerPackage}.request;
+
+<#list table.importPackages as pkg>
+    <#if pkg?contains("com.baomidou")>
+    <#else>
+import ${pkg};
+    </#if>
+</#list>
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.*;
+
+/**
+ * ${table.comment!} 更新request
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@ApiModel(value="${entity}对象", description="${table.comment!}")
+public class ${entity}UpdateRequest implements Serializable {
+
+<#list table.fields as field>
+    <#if field.propertyName == "deleted">
+    <#elseif field.propertyName == "createTime">
+    <#elseif field.propertyName == "updateTime">
+    <#else>
+    /**
+     * ${field.comment!}
+     */
+    @ApiModelProperty(value = "${field.comment}")
+    private ${field.propertyType} ${field.propertyName};
+
+    </#if>
+</#list>
+}

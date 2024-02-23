@@ -1,0 +1,53 @@
+{
+  "groups": [
+    {
+      "name": "generate",
+      "type": "com.github.generate.GeneratorProperties",
+      "sourceType": "com.github.generate.GeneratorProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "generate.author",
+      "type": "java.lang.String",
+      "sourceType": "com.github.generate.GeneratorProperties"
+    },
+    {
+      "name": "generate.base-route",
+      "type": "java.lang.String",
+      "sourceType": "com.github.generate.GeneratorProperties"
+    },
+    {
+      "name": "generate.module",
+      "type": "java.lang.String",
+      "sourceType": "com.github.generate.GeneratorProperties"
+    },
+    {
+      "name": "generate.project",
+      "type": "java.lang.String",
+      "sourceType": "com.github.generate.GeneratorProperties"
+    },
+    {
+      "name": "generate.reverse-domain",
+      "type": "java.lang.String",
+      "sourceType": "com.github.generate.GeneratorProperties",
+      "defaultValue": "cn.landdt"
+    },
+    {
+      "name": "generate.router",
+      "type": "java.lang.String",
+      "sourceType": "com.github.generate.GeneratorProperties"
+    },
+    {
+      "name": "generate.table-prefix",
+      "type": "java.util.List<java.lang.String>",
+      "sourceType": "com.github.generate.GeneratorProperties"
+    },
+    {
+      "name": "generate.tables",
+      "type": "java.util.List<java.lang.String>",
+      "sourceType": "com.github.generate.GeneratorProperties"
+    }
+  ],
+  "hints": []
+}

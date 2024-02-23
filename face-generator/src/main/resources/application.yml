@@ -1,11 +1,22 @@
-server:
-  port: 8902
 spring:
-  application:
-    name: face-generator
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/chatroom?rewriteBatchedStatements=true
     username: root
     password: 123qwe
+  application:
+    name: face-generator
 
+# 域名反转 + 项目名构成基础包名，该项目所有报名都是以此为前缀 比如 cn.landdt.bz.onepass
+# 基础包名 + module 构成 此module的包名前缀，比如 user module的包名前缀 cn.landdt.bz.onepass.user
+# 基础包名 + router 构成 web层的包名前缀，比如 clint module的包名前缀 cn.landdt.bz.onepass.clint
+generate:
+  # 文件生成目录
+  file-path: codegen
+  author: wangcl
+  base-package: com.github.face
+  module-package: module.user
+  router-package: admin.controller.user
+  tables:
+    - user
+  table-prefix:
+    -

@@ -103,6 +103,13 @@
             <artifactId>jetcache-starter-redis</artifactId>
             <version>${jetcache.version}</version>
         </dependency>
+        <!--springframework-->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>5.3.18</version>
+        </dependency>
+
 
     </dependencies>
 
