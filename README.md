@@ -25,3 +25,7 @@
 > 配置 mybatis-plus代码生成器
 > 
 > 引入：redis
+> 
+> 登录 
+> 
+> 定时任务 xxl-job

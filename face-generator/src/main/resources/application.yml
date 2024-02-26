@@ -17,6 +17,6 @@ generate:
   module-package: user
   router-package: user
   tables:
-    - user
+    - sys_user
   table-prefix:
     -

@@ -14,6 +14,7 @@
         <module>face-service</module>
         <module>face-generator</module>
         <module>face-core</module>
+        <module>face-web</module>
     </modules>
 
     <groupId>com.github.face</groupId>

@@ -111,7 +111,7 @@ public class GeneratorApplication implements CommandLineRunner {
         FileOutConfig controllerOutConfig = new FileOutConfig("/templates/AdminController.java.ftl") {
             @Override
             public String outputFile(TableInfo tableInfo) {
-                return generatorProperties.getControllerPath() + "/controller/Admin" + tableInfo.getEntityName() + "Controller.java";
+                return generatorProperties.getControllerPath() + "/controller/" + tableInfo.getEntityName() + "Controller.java";
             }
         };
 

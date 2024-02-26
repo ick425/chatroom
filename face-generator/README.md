@@ -32,4 +32,4 @@ json：docway json
 
 mybatis：mybatis xml
 
-![img.png](img.png)
+![img.png](src/main/resources/img.png)

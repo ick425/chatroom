@@ -1,7 +1,7 @@
 package com.github.face.user.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.github.face.user.entity.User;
+import com.github.face.user.entity.SysUser;
 
 /**
  * <p>
@@ -11,6 +11,6 @@ import com.github.face.user.entity.User;
  * @author wangcl
  * @since 2024-02-26
  */
-public interface UserMapper extends BaseMapper<User> {
+public interface SysUserMapper extends BaseMapper<SysUser> {
 
 }

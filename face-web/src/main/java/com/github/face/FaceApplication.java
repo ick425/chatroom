@@ -19,11 +19,11 @@ import java.net.InetAddress;
 @EnableMethodCache(basePackages = "com.github.face")
 @MapperScan("com.github.**.mapper")
 @SpringBootApplication
-public class ServiceApplication extends SpringBootServletInitializer {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ServiceApplication.class);
+public class FaceApplication extends SpringBootServletInitializer {
+    private static final Logger LOGGER = LoggerFactory.getLogger(FaceApplication.class);
 
     public static void main(String[] args) throws Exception {
-        ConfigurableApplicationContext context = SpringApplication.run(ServiceApplication.class, args);
+        ConfigurableApplicationContext context = SpringApplication.run(FaceApplication.class, args);
         Environment env = context.getBean(Environment.class);
         LOGGER.info("""
                                                 
@@ -43,6 +43,6 @@ public class ServiceApplication extends SpringBootServletInitializer {
 
     @Override
     protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
-        return application.sources(ServiceApplication.class);
+        return application.sources(FaceApplication.class);
     }
 }
