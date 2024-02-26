@@ -23,6 +23,11 @@ import java.util.List;
 import java.util.Map;
 
 
+/**
+ * 代码生成启动类
+ *
+ * @author wo
+ */
 @SpringBootApplication
 public class GeneratorApplication implements CommandLineRunner {
 
@@ -106,7 +111,7 @@ public class GeneratorApplication implements CommandLineRunner {
         FileOutConfig controllerOutConfig = new FileOutConfig("/templates/AdminController.java.ftl") {
             @Override
             public String outputFile(TableInfo tableInfo) {
-                return generatorProperties.getControllerPath() + "/Admin" + tableInfo.getEntityName() + "Controller.java";
+                return generatorProperties.getControllerPath() + "/controller/Admin" + tableInfo.getEntityName() + "Controller.java";
             }
         };
 
@@ -114,18 +119,18 @@ public class GeneratorApplication implements CommandLineRunner {
         focList.add(addDTOFileOutConfig);
         focList.add(updateDTOFileOutConfig);
         focList.add(controllerOutConfig);
+        // 前端文件
         focList.add(pageConfig);
         focList.add(modalConfig);
         focList.add(apiConfig);
-
         injectionConfig.setFileOutConfigList(focList);
 
         // 全剧配置
         GlobalConfig globalConfig = new GlobalConfig();
         globalConfig
                 .setAuthor(generatorProperties.getAuthor())
-                .setSwagger2(true)
-                .setOutputDir(generatorProperties.getFilePath() + "/module")
+//                .setSwagger2(true)
+                .setOutputDir(generatorProperties.getFilePath())
                 .setServiceName("%sService")
                 .setFileOverride(true)
                 .setOpen(false);
@@ -142,15 +147,14 @@ public class GeneratorApplication implements CommandLineRunner {
         // 由于 controller 包名 和 其他包名不统一，所以全部单独设置
         packageConfig
                 .setParent(generatorProperties.getModulePackageName())
-                .setController(null)
-        ;
-
+                .setController(null);
 
         // 模版配置
         TemplateConfig templateConfig = new TemplateConfig();
         templateConfig.setController(null);
-        templateConfig.setXml(null);
-        templateConfig.getEntityKt();
+        // 控制是否生成 mapper.xml文件
+        //templateConfig.setXml(null);
+        templateConfig.setEntityKt(null);
 
         List<TableFill> fillList = new ArrayList<>();
         fillList.add(new TableFill("create_time", FieldFill.INSERT));
@@ -161,6 +165,7 @@ public class GeneratorApplication implements CommandLineRunner {
         strategyConfig
                 .setCapitalMode(true)
                 .setEntityLombokModel(true)
+                .setEntityTableFieldAnnotationEnable(true)
                 .setEntityBooleanColumnRemoveIsPrefix(true)
                 .setNaming(NamingStrategy.underline_to_camel)
                 .setTablePrefix(generatorProperties.getTablePrefix().toArray(new String[0]))

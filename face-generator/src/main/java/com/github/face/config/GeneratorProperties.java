@@ -7,6 +7,9 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author wo
+ */
 @Data
 @ConfigurationProperties(prefix = "generate")
 public class GeneratorProperties {
@@ -32,11 +35,11 @@ public class GeneratorProperties {
     private String author;
 
     public String getModulePackageName() {
-        return getFilePath() + "/" + getBasePackage() + "." + modulePackage;
+        return getBasePackage() + "." + modulePackage;
     }
 
     public String getModulePath() {
-        return getFilePath() + "/module/" + getModulePackageName().replace(".", "/");
+        return getModulePackageName().replace(".", "/");
     }
 
     public String getControllerPackageName() {

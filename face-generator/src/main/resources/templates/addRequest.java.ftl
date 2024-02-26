@@ -6,9 +6,14 @@ package ${cfg.routerPackage}.request;
 import ${pkg};
     </#if>
 </#list>
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import lombok.*;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
 
 /**
  * ${table.comment!} 新增request
@@ -20,7 +25,7 @@ import lombok.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Tag(name = "${entity}对象", description="${table.comment!})
+@Tag(name = "${entity}对象", description="${table.comment!}")
 public class ${entity}AddRequest implements Serializable {
 
 <#list table.fields as field>
@@ -32,7 +37,7 @@ public class ${entity}AddRequest implements Serializable {
     /**
      * ${field.comment!}
      */
-    @Schema(name = "${field.comment}")
+    @Schema(name = "${field.propertyName}", description = "${field.comment}")
     private ${field.propertyType} ${field.propertyName};
 
     </#if>

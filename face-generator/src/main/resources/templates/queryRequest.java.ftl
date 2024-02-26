@@ -6,8 +6,10 @@ package ${cfg.routerPackage}.request;
 import ${pkg};
     </#if>
 </#list>
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import java.time.LocalDateTime;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.*;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -25,7 +27,7 @@ import org.springframework.util.StringUtils;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel(value="${entity}对象", description="${table.comment!}")
+@Tag(name = "${entity}对象", description="${table.comment!}")
 public class ${entity}QueryRequest implements Serializable {
 
 <#list table.fields as field>
@@ -37,14 +39,14 @@ public class ${entity}QueryRequest implements Serializable {
     /**
     * ${field.comment!}
     */
-    @ApiModelProperty(value = "${field.comment}")
+    @Schema(name = "${field.propertyName}", description = "${field.comment}")
     private ${field.propertyType} ${field.propertyName};
 
     </#if>
 </#list>
-    @ApiModelProperty(value = "开始时间")
+    @Schema(name = "start", description = "开始时间")
     private LocalDateTime start;
-    @ApiModelProperty(value = "结束时间")
+    @Schema(name = "end", description = "结束时间")
     private LocalDateTime end;
 
     public LambdaQueryWrapper<${entity}> toWrapper() {
