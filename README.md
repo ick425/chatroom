@@ -26,6 +26,6 @@
 > 
 > 引入：redis
 > 
-> 登录 
+> 登录 ：jwt+security
 > 
 > 定时任务 xxl-job

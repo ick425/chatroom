@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -18,7 +19,7 @@ import java.net.InetAddress;
  */
 @EnableMethodCache(basePackages = "com.github.face")
 @MapperScan("com.github.**.mapper")
-@SpringBootApplication
+@SpringBootApplication(exclude = SecurityAutoConfiguration.class)
 public class FaceApplication extends SpringBootServletInitializer {
     private static final Logger LOGGER = LoggerFactory.getLogger(FaceApplication.class);
 
