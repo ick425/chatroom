@@ -16,16 +16,18 @@
 > 
 > jetcache: 2.7.3
 > 
->
+> 登录 ：jwt+security
+> 
+> 配置 mybatis-plus代码生成器
+> 
+> 
 
 ### 待完成
 
 > 配置 mybatis-plus
 > 
-> 配置 mybatis-plus代码生成器
 > 
 > 引入：redis
 > 
-> 登录 ：jwt+security
 > 
 > 定时任务 xxl-job
