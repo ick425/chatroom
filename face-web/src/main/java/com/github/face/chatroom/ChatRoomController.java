@@ -3,7 +3,6 @@ package com.github.face.chatroom;
 import cn.hutool.core.util.StrUtil;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Component;
 
 import javax.websocket.*;
 import javax.websocket.server.PathParam;
@@ -18,9 +17,8 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 @Tag(name = "聊天室")
 @ServerEndpoint(value = "/chatroom/{userId}")
-@Component
 @Slf4j
-public class ChatRoom {
+public class ChatRoomController {
 
     /**
      * 静态变量，用来记录当前在线连接数。应该把它设计成线程安全的
@@ -30,7 +28,7 @@ public class ChatRoom {
     /**
      * concurrent包的线程安全Map，用来存放每个客户端对应的MyWebSocket对象
      */
-    private static ConcurrentHashMap<String, ChatRoom> webSocketMap = new ConcurrentHashMap<>();
+    private static ConcurrentHashMap<String, ChatRoomController> webSocketMap = new ConcurrentHashMap<>();
 
     /**
      * 与某个客户端的连接会话，需要通过它来给客户端发送数据

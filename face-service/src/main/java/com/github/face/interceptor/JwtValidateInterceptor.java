@@ -34,13 +34,13 @@ public class JwtValidateInterceptor implements HandlerInterceptor {
         if (token != null) {
             try {
                 Claims claims = jwtUtil.parseToken(token);
-                log.debug(request.getRequestURI() + "验证通过：");
+                log.info(request.getRequestURI() + "验证通过：");
                 return true;
             } catch (Exception e) {
-                log.debug(request.getRequestURI() + "验证失败，禁止访问，错误日志==> ", e);
+                log.error(request.getRequestURI() + "验证失败，禁止访问，错误日志==> ", e);
             }
         }
-        log.debug(request.getRequestURI() + "验证失败，禁止访问");    // 后台日志记录
+        log.error("验证失败, 禁止访问, 请求方式: {}, URI: {}", request.getMethod(), request.getRequestURI());
         // 创建一个返回对象，当token错误后反馈给前端
         ResultT fail = ResultT.fail(TOKEN_INVALID);
         // 验证不成功，给前端返回数据
