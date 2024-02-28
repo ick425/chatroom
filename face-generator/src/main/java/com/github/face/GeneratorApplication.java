@@ -165,7 +165,7 @@ public class GeneratorApplication implements CommandLineRunner {
         strategyConfig
                 .setCapitalMode(true)
                 .setEntityLombokModel(true)
-                .setEntityTableFieldAnnotationEnable(true)
+//                .setEntityTableFieldAnnotationEnable(true)
                 .setEntityBooleanColumnRemoveIsPrefix(true)
                 .setNaming(NamingStrategy.underline_to_camel)
                 .setTablePrefix(generatorProperties.getTablePrefix().toArray(new String[0]))
