@@ -40,7 +40,7 @@ public class JwtValidateInterceptor implements HandlerInterceptor {
                 log.error(request.getRequestURI() + "验证失败，禁止访问，错误日志==> ", e);
             }
         }
-        log.error("验证失败, 禁止访问, 请求方式: {}, URI: {}", request.getMethod(), request.getRequestURI());
+        log.error("验证失败, 禁止访问, 请求方式: {}, URI: {}, 参数: {}", request.getMethod(), request.getRequestURI(), request.getQueryString());
         // 创建一个返回对象，当token错误后反馈给前端
         ResultT fail = ResultT.fail(TOKEN_INVALID);
         // 验证不成功，给前端返回数据
