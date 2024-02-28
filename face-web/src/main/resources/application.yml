@@ -1,6 +1,10 @@
 server:
   port: 8990
 
+logging:
+  level:
+    root: info
+
 spring:
   application:
     name: face
@@ -9,6 +13,12 @@ spring:
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
+  jackson:
+    time-zone: Asia/Shanghai
+
+# seata配置
+#seata:
+#  enabled: false
 
 # knife4j
 knife4j:
@@ -72,4 +82,5 @@ open:
     # knife4j
     - /doc.html
     - /v3/api-docs/**
-    - /favicon.ico
+    #    - /favicon.ico
+    - /webjars/**

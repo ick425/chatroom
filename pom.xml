@@ -37,6 +37,7 @@
         <commons-lang.version>2.6</commons-lang.version>
         <commons-io.version>2.15.1</commons-io.version>
         <lombok.version>1.18.30</lombok.version>
+        <seata.version>1.4.2</seata.version>
     </properties>
 
     <dependencies>

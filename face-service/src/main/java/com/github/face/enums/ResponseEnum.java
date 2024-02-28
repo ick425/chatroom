@@ -18,6 +18,8 @@ public enum ResponseEnum {
     SYSTEM_ERROR(500, "系统异常，请联系管理员"),
     LOGIN_ERROR(1001, "登陆失败"),
     TOKEN_INVALID(1002, "token无效，请重新登录"),
+    PASSWORD_ERROR(1003, "密码错误"),
+    PARAM_INVALID(1004, "参数无效"),
 
     ;
 

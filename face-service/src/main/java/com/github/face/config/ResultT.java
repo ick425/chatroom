@@ -43,4 +43,8 @@ public class ResultT {
     public static ResultT fail(Integer code, String msg) {
         return new ResultT(code, msg, null);
     }
+
+    public static ResultT fail(ResponseEnum responseEnum, String msg) {
+        return new ResultT(responseEnum.getCode(), msg, null);
+    }
 }
