@@ -4,6 +4,13 @@ spring:
     url: jdbc:mysql://localhost:3306/chatroom?rewriteBatchedStatements=true&serverTimezone=Asia/Shanghai
     username: root
     password: 123qwe
+  # ES
+  elasticsearch:
+    rest:
+      enable: true
+      uris: 127.0.0.1:9200
+      username: elastic
+      password: QZAQyOqYj7uoIiGqAC_x
 
   # Redis服务器连接端口
   redis:
@@ -24,3 +31,5 @@ spring:
     jedis.pool.min-idle: 0
     # 连接超时时间（毫秒）
     timeout: 5000ms
+
+

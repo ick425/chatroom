@@ -18,8 +18,10 @@
 - 配置 mybatis-plus
 - 引入：redis
 - 定时任务 xxl-job
+- 整合rabbitmq
 
 ### 学习
 - 整合seata
 - 配置nginx
 - 文件断点续传
+- ES
