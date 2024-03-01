@@ -24,4 +24,4 @@
 - 整合seata
 - 配置nginx
 - 文件断点续传
-- ES
+- ES,elk日志监控

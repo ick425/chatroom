@@ -12,6 +12,10 @@ spring:
       username: elastic
       password: QZAQyOqYj7uoIiGqAC_x
 
+logstash:
+  host: ${ip}
+  port: 9527
+
   # Redis服务器连接端口
   redis:
     port: 6379

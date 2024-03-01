@@ -1,14 +1,14 @@
 package com.github.face.user.entity;
 
-import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.github.face.base.BaseEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.io.Serial;
 import java.io.Serializable;
-import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -19,10 +19,11 @@ import java.time.LocalDateTime;
  * @since 2024-02-26
  */
 @Data
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper = true)
 @TableName("sys_user")
-public class SysUser implements Serializable {
+public class SysUser extends BaseEntity implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /**
@@ -66,36 +67,6 @@ public class SysUser implements Serializable {
      */
     @TableField("status")
     private Boolean status;
-
-    /**
-     * 创建人
-     */
-    @TableField("created")
-    private String created;
-
-    /**
-     * 修改人
-     */
-    @TableField("updated")
-    private String updated;
-
-    /**
-     * 创建时间
-     */
-    @TableField(value = "create_time", fill = FieldFill.INSERT)
-    private LocalDateTime createTime;
-
-    /**
-     * 修改时间
-     */
-    @TableField(value = "update_time", fill = FieldFill.INSERT_UPDATE)
-    private LocalDateTime updateTime;
-
-    /**
-     * 是否删除；1：删除
-     */
-    @TableField("is_deleted")
-    private Boolean deleted;
 
 
 }

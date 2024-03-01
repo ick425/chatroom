@@ -1,9 +1,13 @@
 server:
   port: 8990
+  ip: 127.0.0.1
 
 logging:
   level:
     root: info
+  file:
+    # linux: /var/log/face/ windows: /log/
+    path: /log/
 
 spring:
   application:
@@ -88,5 +92,5 @@ open:
     # knife4j
     - /doc.html
     - /v3/api-docs/**
-    #    - /favicon.ico
+    - /favicon.ico
     - /webjars/**

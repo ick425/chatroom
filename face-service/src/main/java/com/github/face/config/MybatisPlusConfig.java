@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
  * @author wo
  */
 @Configuration
-@MapperScan("com.github.**.mapper")
+@MapperScan("com.github.face.**.mapper")
 public class MybatisPlusConfig implements MetaObjectHandler {
 
     /**
