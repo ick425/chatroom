@@ -39,7 +39,7 @@
         <lombok.version>1.18.30</lombok.version>
         <seata.version>1.4.2</seata.version>
         <elasticsearch.version>8.12.2</elasticsearch.version>
-        <logstash.version>7.4</logstash.version>
+        <logstash.version>7.0.1</logstash.version>
     </properties>
 
     <dependencies>
