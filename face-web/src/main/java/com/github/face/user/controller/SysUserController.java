@@ -14,6 +14,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 /**
@@ -57,5 +58,11 @@ public class SysUserController {
     @DeleteMapping("/{id}")
     public Boolean delete(@PathVariable Long id) {
         return sysUserService.removeById(id);
+    }
+
+    @Operation(summary = "导出测试")
+    @GetMapping("/exportTest")
+    public void exportTest(HttpServletResponse response) {
+        sysUserService.exportTest(response);
     }
 }

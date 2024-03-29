@@ -40,6 +40,8 @@
         <seata.version>1.4.2</seata.version>
         <elasticsearch.version>8.12.2</elasticsearch.version>
         <logstash.version>7.0.1</logstash.version>
+        <easypoi.version>4.4.0</easypoi.version>
+        <commons-beanutils.version>1.9.4</commons-beanutils.version>
     </properties>
 
     <dependencies>

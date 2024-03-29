@@ -90,6 +90,7 @@ jetcache:
 open:
   uri:
     # knife4j
+    - /**
     - /doc.html
     - /v3/api-docs/**
     - /favicon.ico
