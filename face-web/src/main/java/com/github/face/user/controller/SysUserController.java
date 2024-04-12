@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
@@ -64,5 +65,11 @@ public class SysUserController {
     @GetMapping("/exportTest")
     public void exportTest(HttpServletResponse response) {
         sysUserService.exportTest(response);
+    }
+
+    @Operation(summary = "值班员题库处理")
+    @GetMapping("/importExcel")
+    public void importExcel(MultipartFile file, HttpServletResponse response) {
+        sysUserService.importExcel(file,response);
     }
 }

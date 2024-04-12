@@ -59,9 +59,9 @@ public class TotalRowHandler implements CellWriteHandler {
                     if (head != null) {
                         System.out.println("表头====》" + head.getHeadNameList().get(0));
                     }
-                    if (CellType.STRING.name().equals(cell.getCellTypeEnum().name())) {
+                    if (CellType.STRING.name().equals(cell.getCellType().name())) {
                         System.out.println("单元格数据===》" + cell.getStringCellValue());
-                    } else if (CellType.NUMERIC.name().equals(cell.getCellTypeEnum().name())) {
+                    } else if (CellType.NUMERIC.name().equals(cell.getCellType().name())) {
                         System.out.println("单元格数据===》" + cell.getNumericCellValue());
                     }
                     System.out.println();

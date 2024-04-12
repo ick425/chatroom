@@ -42,6 +42,7 @@
         <logstash.version>7.0.1</logstash.version>
         <easypoi.version>4.4.0</easypoi.version>
         <commons-beanutils.version>1.9.4</commons-beanutils.version>
+        <apache-poi.version>5.2.5</apache-poi.version>
     </properties>
 
     <dependencies>

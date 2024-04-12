@@ -2,6 +2,7 @@ package com.github.face.user.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.github.face.user.entity.SysUser;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -27,4 +28,6 @@ public interface SysUserService extends IService<SysUser> {
      * 导出测试
      */
     void exportTest(HttpServletResponse response);
+
+    void importExcel(MultipartFile file, HttpServletResponse response);
 }

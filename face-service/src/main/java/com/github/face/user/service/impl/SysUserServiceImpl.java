@@ -1,5 +1,8 @@
 package com.github.face.user.service.impl;
 
+import cn.afterturn.easypoi.excel.ExcelImportUtil;
+import cn.afterturn.easypoi.excel.annotation.Excel;
+import cn.afterturn.easypoi.excel.entity.ImportParams;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -8,9 +11,15 @@ import com.github.face.user.entity.SysUser;
 import com.github.face.user.mapper.SysUserMapper;
 import com.github.face.user.service.SysUserService;
 import com.github.face.utils.ExcelPoiUtils;
+import com.github.face.utils.ExportUtil;
+import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +31,7 @@ import java.util.List;
  * @author wangcl
  * @since 2024-02-26
  */
+@Slf4j
 @Service
 public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> implements SysUserService {
 
@@ -102,5 +112,56 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             log.error("导出错误，", e);
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public void importExcel(MultipartFile file, HttpServletResponse response) {
+        try {
+            List<ExcelDTO> list = ExcelImportUtil.importExcel(file.getInputStream(), ExcelDTO.class, new ImportParams());
+            String regex = "()";
+            String regex1 = "（）";
+            for (ExcelDTO dto : list) {
+                if (StringUtils.isBlank(dto.getQuestion())) {
+                    log.info("跳过，序号{}", dto.getNum());
+                    continue;
+                }
+                String question = dto.getQuestion().replaceAll(" ", "").replaceAll("　", "");
+                if (question.contains(regex)) {
+                    dto.setType("填空");
+                    dto.setContent(question.replaceAll(regex, "（" + dto.getAnswer() + "）"));
+                } else if (question.contains(regex1)) {
+                    dto.setType("填空");
+                    dto.setContent(question.replaceAll(regex1, "（" + dto.getAnswer() + "）"));
+                } else {
+                    dto.setType("判断");
+                    dto.setContent(question + "（" + dto.getAnswer() + "）");
+                }
+            }
+            ExportUtil.downloadExcelEntity(response, list, ExcelDTO.class, System.currentTimeMillis() + "", "试卷", null);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Data
+    public static class ExcelDTO implements Serializable {
+        @Excel(name = "序号")
+        private String num;
+        @Excel(name = "题目")
+        private String question;
+        @Excel(name = "A")
+        private String a;
+        @Excel(name = "B")
+        private String b;
+        @Excel(name = "C")
+        private String c;
+        @Excel(name = "D")
+        private String d;
+        @Excel(name = "答案")
+        private String answer;
+        @Excel(name = "类型")
+        private String type;
+        @Excel(name = "打印内容")
+        private String content;
     }
 }
