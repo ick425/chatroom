@@ -9,6 +9,8 @@ import cn.hutool.core.annotation.AnnotationUtil;
 import com.alibaba.fastjson.JSONObject;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.MapUtils;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
@@ -74,6 +76,9 @@ public class ExcelPoiUtils {
                     Object object;
                     object = field.get(t);
                     List<?> dynamicColl = (List<?>) object;
+                    if (CollectionUtils.isEmpty(dynamicColl)) {
+                        continue;
+                    }
                     for (Object arr : dynamicColl) {
                         String key = null;
                         String val = null;
@@ -110,9 +115,13 @@ public class ExcelPoiUtils {
                     }
                 }
             }
-            //  Step2：处理数据，将动态列添加到实体类
-            Object object = ReflectKit.getObject(t, map);
-            list.add(object);
+            //  Step2：处理数据，如果有动态列的话，添加到实体类
+            if (MapUtils.isNotEmpty(map)) {
+                Object object = ReflectKit.getObject(t, map);
+                list.add(object);
+            } else {
+                list.add(t);
+            }
         }
         log.info(JSONObject.toJSONString(list));
         entityList = entityList.stream().filter(distinctByKey(ExcelExportEntity::getName)).collect(Collectors.toList());
