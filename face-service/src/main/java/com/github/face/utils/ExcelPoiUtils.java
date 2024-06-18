@@ -13,6 +13,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.util.Assert;
+import org.springframework.util.StopWatch;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.ServletOutputStream;
@@ -52,6 +53,8 @@ public class ExcelPoiUtils {
     public static <T> void dynamicExport(HttpServletResponse response, String fileName, String title, String sheetName,
                                          List<T> dataList, String headerName, String headerValue) throws Exception {
         Assert.notEmpty(dataList, "没有需要导出的数据");
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start("处理需要导出的字段");
         List<ExcelExportEntity> entityList = new ArrayList<>();
         List<Object> list = new ArrayList<>();
         for (T t : dataList) {
@@ -65,9 +68,9 @@ public class ExcelPoiUtils {
                 ExcelCollection excelCollection = field.getAnnotation(ExcelCollection.class);
                 // 固定导出列
                 if (excel != null) {
-                    Object name = AnnotationUtil.getAnnotationValue(field, Excel.class, "name");
+                    String excelName = AnnotationUtil.getAnnotationValue(field, Excel.class, "name");
                     // 转换注解修饰的对象
-                    ExcelExportEntity entity = convert(field, name.toString(), field.getName(), index);
+                    ExcelExportEntity entity = convert(field, excelName, field.getName(), excel.width(), index);
                     index++;
                     entityList.add(entity);
                 }
@@ -87,24 +90,34 @@ public class ExcelPoiUtils {
                             typeField.setAccessible(true);
                             String fieldName = typeField.getName();
                             Excel excelItem = typeField.getAnnotation(Excel.class);
+                            // 自定义字段要用@Excel修饰，便于区分
                             if (excelItem != null) {
+                                Object value;
+                                if (!Arrays.asList(headerName, headerValue).contains(fieldName)) {
+                                    continue;
+                                }
                                 if (headerName.equals(fieldName)) {
-                                    Object value;
                                     try {
                                         value = typeField.get(arr);
-                                        key = value.toString();
+                                        if (value != null) {
+                                            key = value.toString();
+                                        } else {
+                                            continue;
+                                        }
                                     } catch (IllegalAccessException e) {
                                         throw new RuntimeException(e);
                                     }
                                     // 转换注解修饰的对象
-                                    ExcelExportEntity entity = convert(typeField, value.toString(), value.toString(), index);
+                                    ExcelExportEntity entity = convert(typeField, value.toString(), value.toString(),
+                                            excelItem.width(), index);
                                     index++;
                                     entityList.add(entity);
                                 } else if (headerValue.equals(fieldName)) {
-                                    Object value;
                                     try {
                                         value = typeField.get(arr);
-                                        val = value.toString();
+                                        if (value != null) {
+                                            val = value.toString();
+                                        }
                                     } catch (IllegalAccessException e) {
                                         throw new RuntimeException(e);
                                     }
@@ -115,6 +128,9 @@ public class ExcelPoiUtils {
                     }
                 }
             }
+            stopWatch.stop();
+
+            stopWatch.start("使用cglib构建动态属性");
             //  Step2：处理数据，如果有动态列的话，添加到实体类
             if (MapUtils.isNotEmpty(map)) {
                 Object object = ReflectKit.getObject(t, map);
@@ -124,8 +140,14 @@ public class ExcelPoiUtils {
             }
         }
         log.info(JSONObject.toJSONString(list));
+        stopWatch.stop();
+
+        stopWatch.start("导出");
         entityList = entityList.stream().filter(distinctByKey(ExcelExportEntity::getName)).collect(Collectors.toList());
         downloadExcelEntityDynamic(response, entityList, list, fileName, title, sheetName);
+        stopWatch.stop();
+        log.debug("自定义列导出：耗时{}", stopWatch.prettyPrint());
+
     }
 
     /**
@@ -175,12 +197,13 @@ public class ExcelPoiUtils {
     /**
      * 将@Excel修饰的字段转为ExcelExportEntity
      */
-    private static ExcelExportEntity convert(Field typeField, String name, String key, int index) {
+    private static ExcelExportEntity convert(Field typeField, String name, String key, double width, int index) {
         Map<String, Object> annotationValueMap = AnnotationUtil.getAnnotationValueMap(typeField, Excel.class);
         ExcelExportEntity entity = JSONObject.parseObject(JSONObject.toJSONBytes(annotationValueMap), ExcelExportEntity.class);
         // 字段名和@Excel的name一致，视为动态表头列
         entity.setName(name);
         entity.setKey(key);
+        entity.setWidth(width);
         entity.setOrderNum(index);
         return entity;
     }
