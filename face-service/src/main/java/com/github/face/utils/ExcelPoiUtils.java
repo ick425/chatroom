@@ -53,14 +53,14 @@ public class ExcelPoiUtils {
     public static <T> void dynamicExport(HttpServletResponse response, String fileName, String title, String sheetName,
                                          List<T> dataList, String headerName, String headerValue) throws Exception {
         Assert.notEmpty(dataList, "没有需要导出的数据");
-        StopWatch stopWatch = new StopWatch();
+        StopWatch stopWatch = new StopWatch("自定义列导出");
         stopWatch.start("处理需要导出的字段");
         List<ExcelExportEntity> entityList = new ArrayList<>();
         List<Object> list = new ArrayList<>();
         for (T t : dataList) {
             // Step1：处理标题
             Field[] fields = t.getClass().getDeclaredFields();
-            int index = 0;
+
             Map<String, Object> map = new HashMap<>();
             for (Field field : fields) {
                 field.setAccessible(true);
@@ -70,8 +70,7 @@ public class ExcelPoiUtils {
                 if (excel != null) {
                     String excelName = AnnotationUtil.getAnnotationValue(field, Excel.class, "name");
                     // 转换注解修饰的对象
-                    ExcelExportEntity entity = convert(field, excelName, field.getName(), excel.width(), index);
-                    index++;
+                    ExcelExportEntity entity = convert(field, excelName, field.getName(), false, 0);
                     entityList.add(entity);
                 }
                 // 自定义导出列,含有@ExcelCollection并且是List
@@ -82,20 +81,23 @@ public class ExcelPoiUtils {
                     if (CollectionUtils.isEmpty(dynamicColl)) {
                         continue;
                     }
+                    // 唯一key，用于设置cglib的属性名和ExcelExportEntity的key,也可以使用别的唯一id（uuid，雪花id等）来代替
+                    int indexKey = 0;
                     for (Object arr : dynamicColl) {
-                        String key = null;
+                        String key;
                         String val = null;
                         Field[] typeFields = arr.getClass().getDeclaredFields();
                         for (Field typeField : typeFields) {
                             typeField.setAccessible(true);
                             String fieldName = typeField.getName();
                             Excel excelItem = typeField.getAnnotation(Excel.class);
-                            // 自定义字段要用@Excel修饰，便于区分
+                            // 只处理@ExcelCollection修饰的List下的@Excel修饰字段，即自定义字段
                             if (excelItem != null) {
                                 Object value;
                                 if (!Arrays.asList(headerName, headerValue).contains(fieldName)) {
                                     continue;
                                 }
+                                // 表头字段
                                 if (headerName.equals(fieldName)) {
                                     try {
                                         value = typeField.get(arr);
@@ -108,11 +110,11 @@ public class ExcelPoiUtils {
                                         throw new RuntimeException(e);
                                     }
                                     // 转换注解修饰的对象
-                                    ExcelExportEntity entity = convert(typeField, value.toString(), value.toString(),
-                                            excelItem.width(), index);
-                                    index++;
+                                    ExcelExportEntity entity = convert(typeField, key, key, true, indexKey);
                                     entityList.add(entity);
-                                } else if (headerValue.equals(fieldName)) {
+                                }
+                                // 表头对应的值字段
+                                else if (headerValue.equals(fieldName)) {
                                     try {
                                         value = typeField.get(arr);
                                         if (value != null) {
@@ -124,7 +126,8 @@ public class ExcelPoiUtils {
                                 }
                             }
                         }
-                        map.put(key, val);
+                        map.put(String.valueOf(indexKey), val);
+                        indexKey++;
                     }
                 }
             }
@@ -139,15 +142,14 @@ public class ExcelPoiUtils {
                 list.add(t);
             }
         }
-        log.info(JSONObject.toJSONString(list));
+        log.debug("构建字段：{}", JSONObject.toJSONString(list));
         stopWatch.stop();
 
         stopWatch.start("导出");
         entityList = entityList.stream().filter(distinctByKey(ExcelExportEntity::getName)).collect(Collectors.toList());
         downloadExcelEntityDynamic(response, entityList, list, fileName, title, sheetName);
         stopWatch.stop();
-        log.debug("自定义列导出：耗时{}", stopWatch.prettyPrint());
-
+        log.debug(stopWatch.prettyPrint());
     }
 
     /**
@@ -196,15 +198,25 @@ public class ExcelPoiUtils {
 
     /**
      * 将@Excel修饰的字段转为ExcelExportEntity
+     *
+     * @param typeField 字段
+     * @param name      列名
+     * @param key       唯一表示key
+     * @param dynamic   是否自定义导出字段
+     * @param index     自定义字段的唯一key,dynamic=true才会使用
+     * @return ExcelExportEntity
      */
-    private static ExcelExportEntity convert(Field typeField, String name, String key, double width, int index) {
+    private static ExcelExportEntity convert(Field typeField, String name, String key, boolean dynamic, int index) {
         Map<String, Object> annotationValueMap = AnnotationUtil.getAnnotationValueMap(typeField, Excel.class);
         ExcelExportEntity entity = JSONObject.parseObject(JSONObject.toJSONBytes(annotationValueMap), ExcelExportEntity.class);
         // 字段名和@Excel的name一致，视为动态表头列
         entity.setName(name);
-        entity.setKey(key);
-        entity.setWidth(width);
-        entity.setOrderNum(index);
+        // ！！！如果使用name作为key，而name中恰好含有英文的“ (,;”等特殊字符，cglib构建动态属性会报错，所以使用一个自定义的唯一值作为key
+        if (dynamic) {
+            entity.setKey(String.valueOf(index));
+        } else {
+            entity.setKey(key);
+        }
         return entity;
     }
 
