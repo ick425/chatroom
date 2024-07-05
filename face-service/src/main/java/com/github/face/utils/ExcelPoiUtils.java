@@ -27,7 +27,6 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 /**
  * 使用easyPoi的动态列导出
@@ -146,7 +145,8 @@ public class ExcelPoiUtils {
         stopWatch.stop();
 
         stopWatch.start("导出");
-        entityList = entityList.stream().filter(distinctByKey(ExcelExportEntity::getName)).collect(Collectors.toList());
+        // 如果对name验重就会导致同名字段只导出一个
+        // entityList = entityList.stream().filter(distinctByKey(ExcelExportEntity::getName)).collect(Collectors.toList());
         downloadExcelEntityDynamic(response, entityList, list, fileName, title, sheetName);
         stopWatch.stop();
         log.debug(stopWatch.prettyPrint());
