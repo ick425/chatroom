@@ -52,11 +52,15 @@ public class ExcelPoiUtils {
     public static <T> void dynamicExport(HttpServletResponse response, String fileName, String title, String sheetName,
                                          List<T> dataList, String headerName, String headerValue) throws Exception {
         Assert.notEmpty(dataList, "没有需要导出的数据");
+
         StopWatch stopWatch = new StopWatch("自定义列导出");
-        stopWatch.start("处理需要导出的字段");
+
+        stopWatch.start("处理导出字段，使用cglib构建动态属性");
         List<ExcelExportEntity> entityList = new ArrayList<>();
+        // 自定义表头列
         List<Object> list = new ArrayList<>();
-        for (T t : dataList) {
+        for (int i = 0; i < dataList.size(); i++) {
+            T t = dataList.get(i);
             // Step1：处理标题
             Field[] fields = t.getClass().getDeclaredFields();
 
@@ -69,8 +73,10 @@ public class ExcelPoiUtils {
                 if (excel != null) {
                     String excelName = AnnotationUtil.getAnnotationValue(field, Excel.class, "name");
                     // 转换注解修饰的对象
-                    ExcelExportEntity entity = convert(field, excelName, field.getName(), false, 0);
-                    entityList.add(entity);
+                    if (i == 0) {
+                        ExcelExportEntity entity = convert(field, excelName, field.getName(), false, 0);
+                        entityList.add(entity);
+                    }
                 }
                 // 自定义导出列,含有@ExcelCollection并且是List
                 else if (excelCollection != null && field.getType().getName().equals(List.class.getName())) {
@@ -108,9 +114,11 @@ public class ExcelPoiUtils {
                                     } catch (IllegalAccessException e) {
                                         throw new RuntimeException(e);
                                     }
-                                    // 转换注解修饰的对象
-                                    ExcelExportEntity entity = convert(typeField, key, key, true, indexKey);
-                                    entityList.add(entity);
+                                    if (i == 0) {
+                                        // 转换注解修饰的对象
+                                        ExcelExportEntity entity = convert(typeField, key, key, true, indexKey);
+                                        entityList.add(entity);
+                                    }
                                 }
                                 // 表头对应的值字段
                                 else if (headerValue.equals(fieldName)) {
@@ -130,9 +138,6 @@ public class ExcelPoiUtils {
                     }
                 }
             }
-            stopWatch.stop();
-
-            stopWatch.start("使用cglib构建动态属性");
             //  Step2：处理数据，如果有动态列的话，添加到实体类
             if (MapUtils.isNotEmpty(map)) {
                 Object object = ReflectKit.getObject(t, map);
@@ -141,12 +146,11 @@ public class ExcelPoiUtils {
                 list.add(t);
             }
         }
-        log.debug("构建字段：{}", JSONObject.toJSONString(list));
         stopWatch.stop();
+        log.debug("构建字段：{}", JSONObject.toJSONString(list));
 
         stopWatch.start("导出");
-        // 如果对name验重就会导致同名字段只导出一个
-        // entityList = entityList.stream().filter(distinctByKey(ExcelExportEntity::getName)).collect(Collectors.toList());
+        //entityList = entityList.stream().filter(distinctByKey(ExcelExportEntity::getName)).collect(Collectors.toList());
         downloadExcelEntityDynamic(response, entityList, list, fileName, title, sheetName);
         stopWatch.stop();
         log.debug(stopWatch.prettyPrint());
