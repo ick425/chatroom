@@ -15,14 +15,14 @@ public class DynamicBean {
     /**
      * 目标对象
      */
-    private Object target;
+    private final Object target;
 
     /**
      * 属性集合
      */
-    private BeanMap beanMap;
+    private final BeanMap beanMap;
 
-    public DynamicBean(Class superclass, Map<String, Class> propertyMap) {
+    public DynamicBean(Class<?> superclass, Map<String, Class<?>> propertyMap) {
         this.target = generateBean(superclass, propertyMap);
         this.beanMap = BeanMap.create(this.target);
     }
@@ -31,8 +31,8 @@ public class DynamicBean {
     /**
      * bean 添加属性和值
      *
-     * @param property
-     * @param value
+     * @param property 属性名
+     * @param value    属性值
      */
     public void setValue(String property, Object value) {
         beanMap.put(property, value);
@@ -41,8 +41,8 @@ public class DynamicBean {
     /**
      * 获取属性值
      *
-     * @param property
-     * @return
+     * @param property 属性名
+     * @return 属性名对应的值
      */
     public Object getValue(String property) {
         return beanMap.get(property);
@@ -61,21 +61,18 @@ public class DynamicBean {
     /**
      * 根据属性生成对象
      *
-     * @param superclass
-     * @param propertyMap
-     * @return
+     * @param superclass  class类型
+     * @param propertyMap 要生成的map对象
+     * @return 生成的对象
      */
-    private Object generateBean(Class superclass, Map<String, Class> propertyMap) {
+    private Object generateBean(Class<?> superclass, Map<String, Class<?>> propertyMap) {
         BeanGenerator generator = new BeanGenerator();
 
         if (null != superclass) {
             generator.setSuperclass(superclass);
         }
         BeanGenerator.addProperties(generator, propertyMap);
-        Object object = generator.create();
-
-
-        return object;
+        return generator.create();
     }
 }
 

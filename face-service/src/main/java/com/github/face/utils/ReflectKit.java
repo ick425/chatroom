@@ -30,7 +30,7 @@ public class ReflectKit {
         PropertyDescriptor[] descriptorArr = propertyUtilsBean.getPropertyDescriptors(dest);
 
         //2.遍历原对象的字段数组，并将其封装到Map
-        Map<String, Class> oldKeyMap = new HashMap<>(4);
+        Map<String, Class<?>> oldKeyMap = new HashMap<>(4);
         for (PropertyDescriptor it : descriptorArr) {
             if (!"class".equalsIgnoreCase(it.getName())) {
                 oldKeyMap.put(it.getName(), it.getPropertyType());
@@ -39,7 +39,12 @@ public class ReflectKit {
         }
 
         //3.将扩展字段Map合并到原字段Map中
-        newValueMap.forEach((k, v) -> oldKeyMap.put(k, v.getClass()));
+        newValueMap.forEach((k, v) -> {
+            // 扩展字段value为null时不扩展此字段
+            if (v != null) {
+                oldKeyMap.put(k, v.getClass());
+            }
+        });
 
         //4.根据新的字段组合生成子类对象
         DynamicBean dynamicBean = new DynamicBean(dest.getClass(), oldKeyMap);

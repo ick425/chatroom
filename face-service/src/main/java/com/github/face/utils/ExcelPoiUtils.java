@@ -54,7 +54,6 @@ public class ExcelPoiUtils {
         Assert.notEmpty(dataList, "没有需要导出的数据");
 
         StopWatch stopWatch = new StopWatch("自定义列导出");
-
         stopWatch.start("处理导出字段，使用cglib构建动态属性");
         List<ExcelExportEntity> entityList = new ArrayList<>();
         // 自定义表头列
@@ -63,9 +62,9 @@ public class ExcelPoiUtils {
             T t = dataList.get(i);
             // Step1：处理标题
             Field[] fields = t.getClass().getDeclaredFields();
-
             Map<String, Object> map = new HashMap<>();
-            for (Field field : fields) {
+            for (int k = 0; k < fields.length; k++) {
+                Field field = fields[k];
                 field.setAccessible(true);
                 Excel excel = field.getAnnotation(Excel.class);
                 ExcelCollection excelCollection = field.getAnnotation(ExcelCollection.class);
@@ -74,7 +73,7 @@ public class ExcelPoiUtils {
                     String excelName = AnnotationUtil.getAnnotationValue(field, Excel.class, "name");
                     // 转换注解修饰的对象
                     if (i == 0) {
-                        ExcelExportEntity entity = convert(field, excelName, field.getName(), false, 0);
+                        ExcelExportEntity entity = convert(field, excelName, field.getName());
                         entityList.add(entity);
                     }
                 }
@@ -86,12 +85,12 @@ public class ExcelPoiUtils {
                     if (CollectionUtils.isEmpty(dynamicColl)) {
                         continue;
                     }
-                    // 唯一key，用于设置cglib的属性名和ExcelExportEntity的key,也可以使用别的唯一id（uuid，雪花id等）来代替
-                    int indexKey = 0;
-                    for (Object arr : dynamicColl) {
-                        String key;
+                    for (int m = 0; m < dynamicColl.size(); m++) {
+                        Object obj = dynamicColl.get(m);
+                        String key = k + "" + m;
+                        // 可以在此处设置导出字段为null时的值，默认空字符串
                         String val = null;
-                        Field[] typeFields = arr.getClass().getDeclaredFields();
+                        Field[] typeFields = obj.getClass().getDeclaredFields();
                         for (Field typeField : typeFields) {
                             typeField.setAccessible(true);
                             String fieldName = typeField.getName();
@@ -105,10 +104,8 @@ public class ExcelPoiUtils {
                                 // 表头字段
                                 if (headerName.equals(fieldName)) {
                                     try {
-                                        value = typeField.get(arr);
-                                        if (value != null) {
-                                            key = value.toString();
-                                        } else {
+                                        value = typeField.get(obj);
+                                        if (value == null) {
                                             continue;
                                         }
                                     } catch (IllegalAccessException e) {
@@ -116,14 +113,14 @@ public class ExcelPoiUtils {
                                     }
                                     if (i == 0) {
                                         // 转换注解修饰的对象
-                                        ExcelExportEntity entity = convert(typeField, key, key, true, indexKey);
+                                        ExcelExportEntity entity = convert(typeField, value.toString(), key);
                                         entityList.add(entity);
                                     }
                                 }
                                 // 表头对应的值字段
                                 else if (headerValue.equals(fieldName)) {
                                     try {
-                                        value = typeField.get(arr);
+                                        value = typeField.get(obj);
                                         if (value != null) {
                                             val = value.toString();
                                         }
@@ -133,8 +130,8 @@ public class ExcelPoiUtils {
                                 }
                             }
                         }
-                        map.put(String.valueOf(indexKey), val);
-                        indexKey++;
+                        map.put(key, val);
+                        log.debug("map添加元素{},{}", key, val);
                     }
                 }
             }
@@ -206,21 +203,15 @@ public class ExcelPoiUtils {
      * @param typeField 字段
      * @param name      列名
      * @param key       唯一表示key
-     * @param dynamic   是否自定义导出字段
-     * @param index     自定义字段的唯一key,dynamic=true才会使用
      * @return ExcelExportEntity
      */
-    private static ExcelExportEntity convert(Field typeField, String name, String key, boolean dynamic, int index) {
+    private static ExcelExportEntity convert(Field typeField, String name, String key) {
         Map<String, Object> annotationValueMap = AnnotationUtil.getAnnotationValueMap(typeField, Excel.class);
         ExcelExportEntity entity = JSONObject.parseObject(JSONObject.toJSONBytes(annotationValueMap), ExcelExportEntity.class);
         // 字段名和@Excel的name一致，视为动态表头列
         entity.setName(name);
         // ！！！如果使用name作为key，而name中恰好含有英文的“ (,;”等特殊字符，cglib构建动态属性会报错，所以使用一个自定义的唯一值作为key
-        if (dynamic) {
-            entity.setKey(String.valueOf(index));
-        } else {
-            entity.setKey(key);
-        }
+        entity.setKey(key);
         return entity;
     }
 
@@ -272,6 +263,12 @@ public class ExcelPoiUtils {
         private List<Type> types;
 
         /**
+         * 评价类型及分数
+         */
+        @ExcelCollection(name = "部门2")
+        private List<Type2> types2;
+
+        /**
          * 评价类型及分数对象
          */
         @Data
@@ -285,7 +282,31 @@ public class ExcelPoiUtils {
             /**
              * 评价类型名称（动态标题名称,此处 name = "typeName"可以随便填，以方法调用时传入的为准）
              */
-            @Excel(name = "typeName", width = 20)
+            @Excel(name = "typeName", width = 20, groupName = "动态分组1")
+            private String typeName;
+
+            /**
+             * 评价类型对应分数（动态标题内容,此处 name = "score"可以随便填，以方法调用时传入的为准）
+             */
+            @Excel(name = "score", width = 20)
+            private String score = "0.00";
+        }
+
+        /**
+         * 评价类型及分数对象
+         */
+        @Data
+        public static class Type2 implements Serializable {
+
+            /**
+             * 评价类型id
+             */
+            private Long typeId;
+
+            /**
+             * 评价类型名称（动态标题名称,此处 name = "typeName"可以随便填，以方法调用时传入的为准）
+             */
+            @Excel(name = "typeName", width = 20, groupName = "动态分组2")
             private String typeName;
 
             /**
